@@ -7,11 +7,13 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.os.Parcelable
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.w3c.dom.Text
 
 
@@ -24,6 +26,7 @@ class ForumActivity : AppCompatActivity() {
     lateinit var imageView: ImageView
     lateinit var forumList: List<Forum>
     lateinit var adapter: ForumExpandableAdapter
+    lateinit var btn_back: FloatingActionButton
 
     lateinit var myHelper: DBHelper
     lateinit var sqlDB: SQLiteDatabase
@@ -36,6 +39,11 @@ class ForumActivity : AppCompatActivity() {
         Genre_View = findViewById<TextView>(R.id.Genre_View)
         Description_TextView = findViewById<TextView>(R.id.Description_TextView)
         imageView = findViewById<ImageView>(R.id.image)
+        btn_back = findViewById<FloatingActionButton>(R.id.btn_back)
+
+        btn_back.setOnClickListener {
+            onBackPressed()
+        }
 
         myHelper = DBHelper(this, "CONTENT", null, 1)
         if(intent.hasExtra("title")) {

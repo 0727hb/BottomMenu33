@@ -144,10 +144,7 @@ class DBHelper(
 
     fun WIKI_init(title: String){
         var db: SQLiteDatabase = writableDatabase
-            db!!.execSQL("UPDATE WIKI SET content_1 = '' WHERE title = '$title';")
-            db!!.execSQL("UPDATE WIKI SET content_2 = '' WHERE title = '$title';")
-            db!!.execSQL("UPDATE WIKI SET content_3 = '' WHERE title = '$title';")
-            db!!.execSQL("UPDATE WIKI SET content_4 = '' WHERE title = '$title';")
+            db!!.execSQL("INSERT INTO WIKI VALUES('$title', '', '', '', '');")
             db.close()
     }
 
