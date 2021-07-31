@@ -37,10 +37,14 @@ class MainActivity : AppCompatActivity() {
             )
             true
         }
-    }
+}
 
-    private fun replaceFragment(fragment: Fragment) {
+    fun replaceFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction().replace(fl.id, fragment).commit()
     }
 
+    fun reviewToMypage() {
+        replaceFragment(MypageFragment())
+        bn.menu.getItem(2).isChecked = true
+    }
 }

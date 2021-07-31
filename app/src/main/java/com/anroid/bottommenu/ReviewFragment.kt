@@ -1,21 +1,32 @@
 package com.anroid.bottommenu
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.RatingBar
 import android.widget.TextView
+import androidx.core.graphics.toColor
+import org.xmlpull.v1.XmlPullParserFactory.newInstance
+import java.lang.reflect.Array.newInstance
+import java.net.URLClassLoader.newInstance
+import javax.xml.datatype.DatatypeFactory.newInstance
+import javax.xml.transform.TransformerFactory.newInstance
 
 class ReviewFragment : Fragment() {
+    val MainActivity: MainActivity = MainActivity()
     lateinit var db: DBHelper
 
     lateinit var edt_alias: TextView
     lateinit var edt_type: TextView
 
     // 별점은 레이팅 바로 구현하는 게 좋을 것 같다
+    lateinit var ratingBar: RatingBar
 
     lateinit var summary: EditText
     lateinit var edt_title: EditText
@@ -39,6 +50,8 @@ class ReviewFragment : Fragment() {
         edt_alias = view.findViewById<TextView>(R.id.edt_alias)
         edt_type = view.findViewById<TextView>(R.id.edt_type)
 
+        ratingBar = view.findViewById<RatingBar>(R.id.ratingBar)
+
         summary = view.findViewById<EditText>(R.id.summary)
         edt_title = view.findViewById<EditText>(R.id.edt_title)
         content = view.findViewById<EditText>(R.id.content)
@@ -58,6 +71,7 @@ class ReviewFragment : Fragment() {
             )
             db.addPerson(person)
             refreshData()
+            (activity as MainActivity).reviewToMypage()
         }
         btn_rev.setOnClickListener {
             val person = Person(
@@ -87,4 +101,5 @@ class ReviewFragment : Fragment() {
         //val adapter= ListPersonAdapter()
         //list.adapter = adapter
     }
+
 }
