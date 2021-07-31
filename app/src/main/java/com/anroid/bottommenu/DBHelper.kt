@@ -16,6 +16,18 @@ class DBHelper(
     version: Int
 ) :
     SQLiteOpenHelper(context, name, factory, version) {
+
+    companion object{
+        private val DATABADE_VER=1
+        private val DATABASE_NAME="SAMPLEKOTL.db"
+
+        //테이블
+        private val TABLE_NAME="Person"
+        private val COOL_ALIAS="Alias"
+        private val COOL_TITLE="Title"
+        private val COOL_TYPE="Type"
+    }
+
     override fun onCreate(db: SQLiteDatabase?) {
         if (db != null) {
             db.execSQL(
@@ -23,13 +35,17 @@ class DBHelper(
                         "NAME TEXT, PASSWORD TEXT, PASSWORD_CK TEXT);"
             )
 
+            val CREATE_TABLE_QUERY = ("CREATE TABLE $TABLE_NAME($COOL_ALIAS TEXT PRIMARY KEY, $COOL_TITLE TEXT, $COOL_TYPE TEXT)")
+            db!!.execSQL(CREATE_TABLE_QUERY);
+
             db!!.execSQL("CREATE TABLE CONTENT(title TEXT, " + "image BLOB, " + "category INTEGER, " + "genre TEXT, description TEXT, " + "date TEXT, " +  "reviewNum INTEGER, " + "rating REAL);")
             db!!.execSQL("CREATE TABLE WIKI(image BLOB," + "title CHAR(20));")
         }
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-
+        db!!.execSQL("DROP TABLE IF EXISTS $TABLE_NAME")
+        onCreate(db!!)
     }
 
     fun insert(
@@ -101,6 +117,61 @@ class DBHelper(
 
         return false
     }
+
+    //CRUD
+
+    val allPerson:List<Person>
+        get(){
+            val istPersons = ArrayList<Person>()
+            val selectQueryHandler = "SELECT * FROM $TABLE_NAME"
+            val db = this.writableDatabase
+            val cursor = db.rawQuery(selectQueryHandler,null)
+            if(cursor.moveToFirst())
+            {
+                do{
+                    val alias = cursor.getString(cursor.getColumnIndex(COOL_ALIAS))
+                    val title = cursor.getString(cursor.getColumnIndex(COOL_TITLE)).toString()
+                    val type = cursor.getString(cursor.getColumnIndex(COOL_TYPE))
+                    val person = Person(alias, title, type)
+
+                    istPersons.add(person)
+                }while (cursor.moveToNext())
+            }
+            db.close()
+            return istPersons
+        }
+
+    fun addPerson(person: Person)
+    {
+        val db = this.writableDatabase
+        val values = ContentValues()
+        values.put(COOL_ALIAS,person.alias)
+        values.put(COOL_TITLE,person.title)
+        values.put(COOL_TYPE,person.type)
+
+        db.insert(TABLE_NAME,null,values)
+        db.close()
+    }
+
+    fun updatePerson(person: Person):Int
+    {
+        val db = this.writableDatabase
+        val values = ContentValues()
+        values.put(COOL_ALIAS,person.alias)
+        values.put(COOL_TITLE,person.title)
+        values.put(COOL_TYPE,person.type)
+
+        return db.update(TABLE_NAME,values,"$COOL_ALIAS=?", arrayOf(person.alias.toString()))
+    }
+
+    fun deletePerson(person: Person)
+    {
+        val db = this.writableDatabase
+
+        db.delete(TABLE_NAME, "$COOL_ALIAS=?", arrayOf(person.alias.toString()))
+        db.close()
+    }
+
 
     fun NEW_Select(category: String): ArrayList<Content> {
         var db: SQLiteDatabase = readableDatabase
