@@ -117,45 +117,19 @@
                         android:textStyle="bold"
                         app:layout_constraintTop_toBottomOf="@+id/db_alias" />
 
-                    <CheckBox
-                        android:id="@+id/btn_star"
+
+                    <RatingBar
+                        android:id="@+id/ratingBar"
+                        style="@style/Widget.AppCompat.RatingBar.Indicator"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
-                        android:button="@drawable/revise" />
-
-                    <CheckBox
-                        android:id="@+id/btn_star2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:layout_marginTop="16dp"
-                        android:button="@drawable/revise" />
-
-                    <CheckBox
-                        android:id="@+id/btn_star3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:layout_marginTop="16dp"
-                        android:button="@drawable/revise" />
-
-                    <CheckBox
-                        android:id="@+id/btn_star4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:layout_marginTop="16dp"
-                        android:button="@drawable/revise" />
-
-                    <CheckBox
-                        android:id="@+id/btn_star5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:layout_marginTop="16dp"
-                        android:button="@drawable/revise" />
+                        android:layout_marginTop="24dp"
+                        android:isIndicator="false"
+                        android:max="5"
+                        android:numStars="5"
+                        android:rating="0.0"
+                        android:stepSize="0.5" />
 
                 </LinearLayout>
 
