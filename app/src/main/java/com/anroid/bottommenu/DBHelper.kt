@@ -213,7 +213,7 @@ class DBHelper(
         return contentList
     }
 
-    fun WIKI_init(title: String){
+    fun WIKI_Insert(title: String){
         var db: SQLiteDatabase = writableDatabase
             db!!.execSQL("INSERT INTO WIKI VALUES('$title', '', '', '', '');")
             db.close()
