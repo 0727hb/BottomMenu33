@@ -4,9 +4,15 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.BaseAdapter
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
 
 class ListPersonAdapter(val context: Context, val reviewList: List<Review>): BaseAdapter() {
+
+    private val mainActivity = MainActivity.getInstance()
+
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val rowView: View = LayoutInflater.from(context).inflate(R.layout.review_contents, null)
 
@@ -23,8 +29,7 @@ class ListPersonAdapter(val context: Context, val reviewList: List<Review>): Bas
 
         //이벤트
         rowView.setOnClickListener {
-            // edt_title.setText(rowView.textContent.text.toString())
-            // edt_type.setText(rowView.textgenre.text.toString())
+            mainActivity?.mypageToReview()
         }
         btn_del.setOnClickListener {
 
