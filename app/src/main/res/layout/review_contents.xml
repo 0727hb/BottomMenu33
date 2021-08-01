@@ -43,32 +43,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textgenre"
+        android:id="@+id/textDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="장르"
+        android:text="한 줄 설명"
         app:layout_constraintStart_toEndOf="@+id/imageView"
         app:layout_constraintTop_toBottomOf="@+id/textContent" />
-
-    <Button
-        android:id="@+id/btn_del"
-        android:layout_width="70dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="16dp"
-        android:text="삭제"
-        app:layout_constraintBottom_toTopOf="@+id/textgenre"
-        app:layout_constraintStart_toEndOf="@+id/textContent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/btn_rev"
-        android:layout_width="70dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="16dp"
-        android:text="수정"
-        app:layout_constraintStart_toEndOf="@+id/textContent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_del" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -16,10 +16,10 @@ class ListPersonAdapter(val context: Context, val reviewList: List<Review>): Bas
 
     private val mainActivity = MainActivity.getInstance()
     private val alias: String = "HELLOouo"
-    private var title: String = "dfa"
-    private var reviewContent = "안녕안녕"
-    private var description = "하이하이"
-    private var rating = 3.0f
+    private var title: String = ""
+    private var reviewContent = ""
+    private var description = ""
+    private var rating = 0.0f
     private var emotion = ""
     private var recommend = ""
 
@@ -32,18 +32,18 @@ class ListPersonAdapter(val context: Context, val reviewList: List<Review>): Bas
         val textId = rowView.findViewById<TextView>(R.id.textId)
         val imageView = rowView.findViewById<ImageView>(R.id.imageView)
         val textContent = rowView.findViewById<TextView>(R.id.textContent)
-        val textgenre = rowView.findViewById<TextView>(R.id.textgenre)
-        val btn_del = rowView.findViewById<Button>(R.id.btn_del)
-        val btn_rev = rowView.findViewById<Button>(R.id.btn_rev)
+        val textDescription = rowView.findViewById<TextView>(R.id.textDescription)
 
         textId.text = reviewList[position].alias
         imageView.setImageResource(R.drawable.image)         // Person 클래스 이미지 없음
         textContent.text = reviewList[position].title
+        textDescription.text = reviewList[position].description
 
         db = DBHelper(context, "REVIEW", null, 1)
         sqlDB = db.readableDatabase
         var cursor: Cursor
-        cursor = sqlDB.rawQuery("SELECT * FROM REVIEW WHERE alias='$alias';", null)
+        title = reviewList[position].title
+        cursor = sqlDB.rawQuery("SELECT * FROM REVIEW WHERE alias='$alias' AND title='$title';", null)
 
         while (cursor.moveToNext()){
             title = cursor.getString(1)
@@ -58,15 +58,12 @@ class ListPersonAdapter(val context: Context, val reviewList: List<Review>): Bas
         //이벤트
         rowView.setOnClickListener {
             mainActivity?.mypageToReview(ReviewFragment(), review_content)
-            //mainActivity?.mypageToReview(review_content)
-        }
-        btn_del.setOnClickListener {
-
-        }
-        btn_rev.setOnClickListener {
 
         }
 
+        db.close()
+        sqlDB.close()
+        cursor.close()
         return rowView
     }
 

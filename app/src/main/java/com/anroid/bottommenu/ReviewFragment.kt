@@ -111,6 +111,7 @@ class ReviewFragment : Fragment() {
         recommend_btnEvent()
         btnEvent()
 
+        db.close()
         return view
     }
 
@@ -158,9 +159,9 @@ class ReviewFragment : Fragment() {
 
         }
         btn_del.setOnClickListener {
-
-
+            alias = "HELLOouo"
+            db.deleteReview(alias, title)
+            (activity as MainActivity).reviewToMypage()
         }
     }
-
 }

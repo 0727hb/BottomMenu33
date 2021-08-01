@@ -117,56 +117,6 @@ class DBHelper(
         return false
     }
 
-    //CRUD
-
-    val allPerson: List<Person>
-        get() {
-            val istPersons = ArrayList<Person>()
-            val selectQueryHandler = "SELECT * FROM $TABLE_NAME"
-            val db = this.writableDatabase
-            val cursor = db.rawQuery(selectQueryHandler, null)
-            if (cursor.moveToFirst()) {
-                do {
-                    val alias = cursor.getString(cursor.getColumnIndex(COOL_ALIAS))
-                    val title = cursor.getString(cursor.getColumnIndex(COOL_TITLE))
-                    val type = cursor.getString(cursor.getColumnIndex(COOL_TYPE))
-                    val person = Person(alias, title, type)
-
-                    istPersons.add(person)
-                } while (cursor.moveToNext())
-            }
-            db.close()
-            return istPersons
-        }
-
-    fun addPerson(person: Person) {
-        val db: SQLiteDatabase = writableDatabase
-        val alias = person.alias
-        val title = person.title
-        val type = person.type
-        db!!.execSQL("INSERT INTO Person VALUES('$alias', '$title', '$type');")
-
-        db.close()
-    }
-
-    fun updatePerson(person: Person) {
-        val db: SQLiteDatabase = writableDatabase
-        val alias = person.alias
-        val title = person.title
-        val type = person.type
-        //db!!.execSQL("UPDATE Person SET '$alias', '$title', '$type' WHERE")
-
-        db.close()
-    }
-
-    fun deletePerson(person: Person) {
-        val db = this.writableDatabase
-
-        db.delete(TABLE_NAME, "$COOL_ALIAS=?", arrayOf(person.alias.toString()))
-
-        db.close()
-    }
-
     fun selectReivew(): ArrayList<Review> {
         var db: SQLiteDatabase = readableDatabase
         val reviewList: ArrayList<Review> = ArrayList<Review>()
@@ -226,7 +176,7 @@ class DBHelper(
 
     fun deleteReview(alias: String, title: String) {
         var db: SQLiteDatabase = writableDatabase
-        db!!.execSQL("DELETE FROM REVIEW WHERE alias = '$alias', title = '$title';")
+        db!!.execSQL("DELETE FROM REVIEW WHERE alias = '$alias' AND title = '$title';")
         db.close()
     }
 
