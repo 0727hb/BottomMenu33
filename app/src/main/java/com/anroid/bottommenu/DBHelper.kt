@@ -35,9 +35,8 @@ class DBHelper(
                         "NAME TEXT, PASSWORD TEXT, PASSWORD_CK TEXT);"
             )
 
-            val CREATE_TABLE_QUERY = ("CREATE TABLE $TABLE_NAME($COOL_ALIAS TEXT PRIMARY KEY, $COOL_TITLE TEXT, $COOL_TYPE TEXT)")
-            db!!.execSQL(CREATE_TABLE_QUERY);
-
+            db!!.execSQL("CREATE TABLE $TABLE_NAME($COOL_ALIAS TEXT PRIMARY KEY, $COOL_TITLE TEXT, $COOL_TYPE TEXT)");
+            db!!.execSQL("CREATE TABLE REVIEW(alias TEXT," + " title TEXT," + " review TEXT," + " description TEXT," + " rating REAL," + " emotion TEXT," + " recommend TEXT);")
             db!!.execSQL("CREATE TABLE CONTENT(title TEXT, " + "image BLOB, " + "category INTEGER, " + "genre TEXT, description TEXT, " + "date TEXT, " +  "reviewNum INTEGER, " + "rating REAL);")
             db!!.execSQL("CREATE TABLE WIKI(image BLOB," + "title CHAR(20));")
         }
@@ -130,7 +129,7 @@ class DBHelper(
             {
                 do{
                     val alias = cursor.getString(cursor.getColumnIndex(COOL_ALIAS))
-                    val title = cursor.getString(cursor.getColumnIndex(COOL_TITLE)).toString()
+                    val title = cursor.getString(cursor.getColumnIndex(COOL_TITLE))
                     val type = cursor.getString(cursor.getColumnIndex(COOL_TYPE))
                     val person = Person(alias, title, type)
 
@@ -141,37 +140,73 @@ class DBHelper(
             return istPersons
         }
 
-    fun addPerson(person: Person)
-    {
-        val db = this.writableDatabase
-        val values = ContentValues()
-        values.put(COOL_ALIAS,person.alias)
-        values.put(COOL_TITLE,person.title)
-        values.put(COOL_TYPE,person.type)
+    fun addPerson(person: Person) {
+        val db: SQLiteDatabase = writableDatabase
+        val alias = person.alias
+        val title = person.title
+        val type = person.type
+        db!!.execSQL("INSERT INTO Person VALUES('$alias', '$title', '$type');")
 
-        db.insert(TABLE_NAME,null,values)
         db.close()
     }
 
-    fun updatePerson(person: Person):Int
-    {
-        val db = this.writableDatabase
-        val values = ContentValues()
-        values.put(COOL_ALIAS,person.alias)
-        values.put(COOL_TITLE,person.title)
-        values.put(COOL_TYPE,person.type)
+    fun updatePerson(person: Person) {
+        val db: SQLiteDatabase = writableDatabase
+        val alias = person.alias
+        val title = person.title
+        val type = person.type
+        //db!!.execSQL("UPDATE Person SET '$alias', '$title', '$type' WHERE")
 
-        return db.update(TABLE_NAME,values,"$COOL_ALIAS=?", arrayOf(person.alias.toString()))
+        db.close()
     }
 
-    fun deletePerson(person: Person)
-    {
+    fun deletePerson(person: Person) {
         val db = this.writableDatabase
 
         db.delete(TABLE_NAME, "$COOL_ALIAS=?", arrayOf(person.alias.toString()))
+
         db.close()
     }
 
+    fun selectReivew(): ArrayList<Review> {
+        var db: SQLiteDatabase = readableDatabase
+        val reviewList: ArrayList<Review> = ArrayList<Review>()
+        try {
+            val cursor: Cursor = db!!.rawQuery("SELECT * FROM REVIEW;", null)
+            while (cursor.moveToNext()) {
+                val alias = cursor.getString(cursor.getColumnIndex("alias"))
+                val title = cursor.getString(cursor.getColumnIndex("title"))
+                val review = cursor.getString(cursor.getColumnIndex("review"))
+                val review_content = Review(alias, title, review)
+                reviewList.add(review_content)
+            }
+        } catch (ex: Exception) {
+            Log.e(ContentValues.TAG, "Exception in executing insert SQL.", ex)
+        }
+        db.close()
+        return reviewList
+    }
+
+    fun addReview(alias: String, title: String, review: String){
+        var db: SQLiteDatabase = writableDatabase
+        db!!.execSQL("INSERT INTO REVIEW VALUES('$alias', '$title', '$review');")
+        db.close()
+
+    }
+
+    fun updateReview(alias: String, title: String, review: String){
+        var db: SQLiteDatabase = writableDatabase
+        db!!.execSQL("INSERT INTO REVIEW SET alias = '$alias';")
+        db!!.execSQL("INSERT INTO REVIEW SET title = '$title';")
+        db!!.execSQL("INSERT INTO REVIEW SET review = '$review';")
+        db.close()
+    }
+
+    fun deleteReview(alias: String, title: String){
+        var db: SQLiteDatabase = writableDatabase
+        db!!.execSQL("DELETE FROM REVIEW WHERE alias = '$alias', title = '$title';")
+        db.close()
+    }
 
     fun NEW_Select(category: String): ArrayList<Content> {
         var db: SQLiteDatabase = readableDatabase

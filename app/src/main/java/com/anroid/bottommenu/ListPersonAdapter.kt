@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 
-class ListPersonAdapter(val context: Context, val istPerson: List<Person>): BaseAdapter() {
+class ListPersonAdapter(val context: Context, val reviewList: List<Review>): BaseAdapter() {
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val rowView: View = LayoutInflater.from(context).inflate(R.layout.review_contents, null)
 
@@ -17,15 +17,13 @@ class ListPersonAdapter(val context: Context, val istPerson: List<Person>): Base
         val btn_del = rowView.findViewById<Button>(R.id.btn_del)
         val btn_rev = rowView.findViewById<Button>(R.id.btn_rev)
 
-        //textId
+        textId.text = reviewList[position].alias
         imageView.setImageResource(R.drawable.image)         // Person 클래스 이미지 없음
-        textContent.text = istPerson[position].title
-        textgenre.text = istPerson[position].type
+        textContent.text = reviewList[position].title
 
         //이벤트
         rowView.setOnClickListener {
-            // edt_title.setText(rowView.textContent.text.toString())
-            // edt_type.setText(rowView.textgenre.text.toString())
+
         }
         btn_del.setOnClickListener {
 
@@ -38,11 +36,11 @@ class ListPersonAdapter(val context: Context, val istPerson: List<Person>): Base
     }
 
     override fun getCount(): Int {
-        return istPerson.size
+        return reviewList.size
     }
 
     override fun getItem(position: Int): Any {
-        return istPerson[position]
+        return reviewList[position]
     }
 
     override fun getItemId(position: Int): Long {

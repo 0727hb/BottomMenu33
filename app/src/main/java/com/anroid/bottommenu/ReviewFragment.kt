@@ -11,14 +11,11 @@ class ReviewFragment : Fragment() {
     lateinit var db: DBHelper
 
     lateinit var edt_alias: TextView
-    lateinit var edt_type: TextView
-
-    // 별점은 레이팅 바로 구현하는 게 좋을 것 같다
     lateinit var ratingBar: RatingBar
 
     lateinit var summary: EditText
     lateinit var edt_title: EditText
-    lateinit var content: EditText
+    lateinit var review: EditText
 
     lateinit var btn_add: Button
     lateinit var btn_rev: Button
@@ -39,13 +36,12 @@ class ReviewFragment : Fragment() {
         db = DBHelper(getActivity(), "Person", null, 1)
 
         edt_alias = view.findViewById<TextView>(R.id.edt_alias)
-        edt_type = view.findViewById<TextView>(R.id.edt_type)
 
         ratingBar = view.findViewById<RatingBar>(R.id.ratingBar)
 
         summary = view.findViewById<EditText>(R.id.summary)
         edt_title = view.findViewById<EditText>(R.id.edt_title)
-        content = view.findViewById<EditText>(R.id.content)
+        review = view.findViewById<EditText>(R.id.review)
 
         btn_add = view.findViewById<Button>(R.id.btn_add)
         btn_del = view.findViewById<Button>(R.id.btn_del)
@@ -54,36 +50,27 @@ class ReviewFragment : Fragment() {
         btn_good = view.findViewById<CheckBox>(R.id.btn_good)
         btn_hate = view.findViewById<CheckBox>(R.id.btn_hate)
 
-        refreshData()
-
         //Event
         btn_add.setOnClickListener {
-            val person = Person(
-                edt_alias.text.toString(),
-                edt_type.text.toString(),
-                edt_title.text.toString()
-            )
-            db.addPerson(person)
-            refreshData()
+            var alias = "HELLOouo"
+            var title = edt_title.text.toString()
+            var review = review.text.toString()
+
+            db.addReview(alias, title, review)
+
             (activity as MainActivity).reviewToMypage()
         }
         btn_rev.setOnClickListener {
-            val person = Person(
-                edt_alias.text.toString(),
-                edt_type.text.toString(),
-                edt_title.text.toString()
-            )
-            db.updatePerson(person)
-            refreshData()
+
         }
         btn_del.setOnClickListener {
-            val person = Person(
-                edt_alias.text.toString(),
-                edt_type.text.toString(),
-                edt_title.text.toString()
-            )
-            db.deletePerson(person)
-            refreshData()
+            //val person = Person(
+             //   edt_alias.text.toString(),
+                //edt_type.text.toString(),
+             //   edt_title.text.toString()
+           // )
+           // db.deletePerson(person)
+
         }
 
         btn_good.setOnClickListener{
@@ -94,11 +81,5 @@ class ReviewFragment : Fragment() {
         }
 
         return view
-    }
-
-    private fun refreshData(){
-        istPersons = db.allPerson
-        //val adapter= ListPersonAdapter()
-        //list.adapter = adapter
     }
 }
