@@ -11,6 +11,7 @@ class ReviewFragment : Fragment() {
     lateinit var db: DBHelper
 
     lateinit var edt_alias: TextView
+
     lateinit var ratingBar: RatingBar
 
     lateinit var summary: EditText
@@ -50,6 +51,8 @@ class ReviewFragment : Fragment() {
         btn_good = view.findViewById<CheckBox>(R.id.btn_good)
         btn_hate = view.findViewById<CheckBox>(R.id.btn_hate)
 
+        refreshData()
+
         //Event
         btn_add.setOnClickListener {
             var alias = "HELLOouo"
@@ -62,15 +65,11 @@ class ReviewFragment : Fragment() {
         }
         btn_rev.setOnClickListener {
 
+            refreshData()
         }
         btn_del.setOnClickListener {
-            //val person = Person(
-             //   edt_alias.text.toString(),
-                //edt_type.text.toString(),
-             //   edt_title.text.toString()
-           // )
-           // db.deletePerson(person)
 
+            refreshData()
         }
 
         btn_good.setOnClickListener{
@@ -81,5 +80,11 @@ class ReviewFragment : Fragment() {
         }
 
         return view
+    }
+
+    private fun refreshData(){
+        istPersons = db.allPerson
+        //val adapter= ListPersonAdapter()
+        //list.adapter = adapter
     }
 }

@@ -23,7 +23,8 @@ class ListPersonAdapter(val context: Context, val reviewList: List<Review>): Bas
 
         //이벤트
         rowView.setOnClickListener {
-
+            // edt_title.setText(rowView.textContent.text.toString())
+            // edt_type.setText(rowView.textgenre.text.toString())
         }
         btn_del.setOnClickListener {
 

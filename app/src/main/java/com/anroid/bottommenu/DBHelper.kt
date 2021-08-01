@@ -36,7 +36,7 @@ class DBHelper(
             )
 
             db!!.execSQL("CREATE TABLE $TABLE_NAME($COOL_ALIAS TEXT PRIMARY KEY, $COOL_TITLE TEXT, $COOL_TYPE TEXT)");
-            db!!.execSQL("CREATE TABLE REVIEW(alias TEXT," + " title TEXT," + " review TEXT," + " description TEXT," + " rating REAL," + " emotion TEXT," + " recommend TEXT);")
+            db!!.execSQL("CREATE TABLE REVIEW(alias TEXT," + " title TEXT," + " review TEXT" + ");")
             db!!.execSQL("CREATE TABLE CONTENT(title TEXT, " + "image BLOB, " + "category INTEGER, " + "genre TEXT, description TEXT, " + "date TEXT, " +  "reviewNum INTEGER, " + "rating REAL);")
             db!!.execSQL("CREATE TABLE WIKI(image BLOB," + "title CHAR(20));")
         }
