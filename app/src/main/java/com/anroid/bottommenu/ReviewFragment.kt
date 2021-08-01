@@ -1,25 +1,16 @@
 package com.anroid.bottommenu
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.RatingBar
 import android.widget.TextView
-import androidx.core.graphics.toColor
-import org.xmlpull.v1.XmlPullParserFactory.newInstance
-import java.lang.reflect.Array.newInstance
-import java.net.URLClassLoader.newInstance
-import javax.xml.datatype.DatatypeFactory.newInstance
-import javax.xml.transform.TransformerFactory.newInstance
 
 class ReviewFragment : Fragment() {
-    val MainActivity: MainActivity = MainActivity()
     lateinit var db: DBHelper
 
     lateinit var edt_alias: TextView
@@ -82,7 +73,6 @@ class ReviewFragment : Fragment() {
             db.updatePerson(person)
             refreshData()
         }
-
         btn_del.setOnClickListener {
             val person = Person(
                 edt_alias.text.toString(),
