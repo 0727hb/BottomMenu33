@@ -66,6 +66,8 @@ class ReviewFragment : Fragment() {
         btn_sad = view.findViewById<CheckBox>(R.id.btn_sad)
         btn_bored = view.findViewById<CheckBox>(R.id.btn_bored)
 
+
+
         arguments?.let {
             title = it.getString("title").toString()
             reviewContent = it.getString("reviewContent").toString()
@@ -100,33 +102,14 @@ class ReviewFragment : Fragment() {
             else -> false
         }
 
-
-        emotion_btnEvent()
-        recommend_btnEvent()
-
+        //Event
         ratingBar.setOnRatingBarChangeListener { ratingBar, rating, fromUser ->
             ratingScore = rating
         }
 
-
-        //Event
-        btn_add.setOnClickListener {
-            alias = "HELLOouo"
-            title = edt_title.text.toString()
-            reviewContent = review.text.toString()
-            description = summary.text.toString()
-
-            db.addReview(alias, title, reviewContent, description, ratingScore, emotion, recommend)
-            (activity as MainActivity).reviewToMypage()
-        }
-        btn_rev.setOnClickListener {
-
-
-        }
-        btn_del.setOnClickListener {
-
-
-        }
+        emotion_btnEvent()
+        recommend_btnEvent()
+        btnEvent()
 
         return view
     }
@@ -157,6 +140,26 @@ class ReviewFragment : Fragment() {
         btn_hate.setOnClickListener {
             btn_good.isChecked = false
             recommend = "NOPE"
+        }
+    }
+
+    private fun btnEvent(){
+        btn_add.setOnClickListener {
+            alias = "HELLOouo"
+            title = edt_title.text.toString()
+            reviewContent = review.text.toString()
+            description = summary.text.toString()
+
+            db.addReview(alias, title, reviewContent, description, ratingScore, emotion, recommend)
+            (activity as MainActivity).reviewToMypage()
+        }
+        btn_rev.setOnClickListener {
+
+
+        }
+        btn_del.setOnClickListener {
+
+
         }
     }
 
