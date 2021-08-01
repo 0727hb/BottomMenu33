@@ -199,13 +199,12 @@ class DBHelper(
 
     fun updateReview(alias: String, title: String, review: String, description: String, rating: Float, emotion: String, recommend: String){
         var db: SQLiteDatabase = writableDatabase
-        db!!.execSQL("INSERT INTO REVIEW SET alias = '$alias';")
-        db!!.execSQL("INSERT INTO REVIEW SET title = '$title';")
-        db!!.execSQL("INSERT INTO REVIEW SET review = '$review';")
-        db!!.execSQL("INSERT INTO REVIEW SET description = '$description';")
-        db!!.execSQL("INSERT INTO REVIEW SET rating = '$rating';")
-        db!!.execSQL("INSERT INTO REVIEW SET emotion = '$emotion';")
-        db!!.execSQL("INSERT INTO REVIEW SET recommend = '$recommend';")
+        db!!.execSQL("INSERT INTO REVIEW SET title = '$title' WHERE alias = '$alias';")
+        db!!.execSQL("INSERT INTO REVIEW SET review = '$review' WHERE alias = '$alias';")
+        db!!.execSQL("INSERT INTO REVIEW SET description = '$description' WHERE alias = '$alias';")
+        db!!.execSQL("INSERT INTO REVIEW SET rating = '$rating' WHERE alias = '$alias';")
+        db!!.execSQL("INSERT INTO REVIEW SET emotion = '$emotion' WHERE alias = '$alias';")
+        db!!.execSQL("INSERT INTO REVIEW SET recommend = '$recommend' WHERE alias = '$alias';")
         db.close()
     }
 
