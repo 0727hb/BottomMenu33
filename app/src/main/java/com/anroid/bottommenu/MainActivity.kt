@@ -63,6 +63,8 @@ class MainActivity : AppCompatActivity() {
         bundle.putString("reviewContent", reviewList.review)
         bundle.putString("description", reviewList.description)
         bundle.putFloat("rating", reviewList.rating)
+        bundle.putString("emotion", reviewList.emotion)
+        bundle.putString("recommend", reviewList.recommend)
         fragment.arguments = bundle
         supportFragmentManager.beginTransaction().replace(R.id.fl_, fragment).commit()
         bn.menu.getItem(1).isChecked = true

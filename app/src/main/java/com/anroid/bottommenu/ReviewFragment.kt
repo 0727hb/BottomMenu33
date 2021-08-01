@@ -71,12 +71,34 @@ class ReviewFragment : Fragment() {
             reviewContent = it.getString("reviewContent").toString()
             description = it.getString("description").toString()
             ratingScore = it.getFloat("rating")
+            emotion = it.getString("emotion").toString()
+            recommend = it.getString("recommend").toString()
         }
 
         edt_title.setText(title)
         summary.setText(description)
         review.setText(reviewContent)
         ratingBar.rating = ratingScore
+
+        when(emotion){
+            "HAPPY" -> btn_happy.isChecked = true
+            "SAD" -> btn_sad.isChecked = true
+            "BORED" -> btn_bored.isChecked = true
+            else -> false
+        }
+
+        when(emotion){
+            "HAPPY" -> btn_happy.isChecked = true
+            "SAD" -> btn_sad.isChecked = true
+            "BORED" -> btn_bored.isChecked = true
+            else -> false
+        }
+
+        when(recommend){
+            "YES" -> btn_good.isChecked = true
+            "NOPE" -> btn_hate.isChecked = true
+            else -> false
+        }
 
 
         emotion_btnEvent()
@@ -85,6 +107,7 @@ class ReviewFragment : Fragment() {
         ratingBar.setOnRatingBarChangeListener { ratingBar, rating, fromUser ->
             ratingScore = rating
         }
+
 
         //Event
         btn_add.setOnClickListener {
