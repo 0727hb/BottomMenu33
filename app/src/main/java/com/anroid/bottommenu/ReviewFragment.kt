@@ -1,6 +1,7 @@
 package com.anroid.bottommenu
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -8,13 +9,13 @@ import android.view.ViewGroup
 import android.widget.*
 
 class ReviewFragment : Fragment() {
-    private lateinit var alias: String
-    private lateinit var title: String
-    private lateinit var reviewContent: String
-    private lateinit var description: String
-    private  var ratingScore: Float = 0.0f
-    private lateinit var emotion: String
-    private lateinit var recommend: String
+    private var alias: String = ""
+    private var title: String = ""
+    private var reviewContent: String = ""
+    private var description: String = ""
+    private var ratingScore: Float = 0.0f
+    private var emotion: String = ""
+    private var recommend: String = ""
 
 
     lateinit var db: DBHelper
@@ -38,15 +39,13 @@ class ReviewFragment : Fragment() {
     lateinit var btn_sad: CheckBox
     lateinit var btn_bored: CheckBox
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_review, container, false)
-
-        db = DBHelper(getActivity(), "Person", null, 1)
+        db = DBHelper(getActivity(), "REVIEW", null, 1)
 
         edt_alias = view.findViewById<TextView>(R.id.edt_alias)
 
@@ -68,31 +67,22 @@ class ReviewFragment : Fragment() {
         btn_bored = view.findViewById<CheckBox>(R.id.btn_bored)
 
 
-        btn_happy.setOnClickListener{
-            btn_sad.isChecked = false
-            btn_bored.isChecked = false
-            emotion = "HAPPY"
-        }
-        btn_sad.setOnClickListener {
-            btn_happy.isChecked = false
-            btn_bored.isChecked = false
-            emotion = "SAD"
-        }
-        btn_bored.setOnClickListener {
-            btn_sad.isChecked = false
-            btn_good.isChecked = false
-            emotion = "BORED"
+        arguments?.let {
+            title = it.getString("title").toString()
+            reviewContent = it.getString("reviewContent").toString()
+            description = it.getString("description").toString()
+            ratingScore = it.getFloat("ratingBar")
         }
 
+        Log.d("A_Fragment", "영화 제목 : ${title}")
 
-        btn_good.setOnClickListener{
-            btn_hate.isChecked = false
-            recommend = "YES"
-        }
-        btn_hate.setOnClickListener {
-            btn_good.isChecked = false
-            recommend = "NOPE"
-        }
+        edt_title.setText(title)
+        summary.setText(description)
+        review.setText(reviewContent)
+        ratingBar.setRating(ratingScore)
+
+        emotion_btnEvent()
+        recommend_btnEvent()
 
         ratingBar.setOnRatingBarChangeListener { ratingBar, rating, fromUser ->
             ratingScore = rating
@@ -118,6 +108,35 @@ class ReviewFragment : Fragment() {
         }
 
         return view
+    }
+
+    private fun emotion_btnEvent(){
+        btn_happy.setOnClickListener{
+            btn_sad.isChecked = false
+            btn_bored.isChecked = false
+            emotion = "HAPPY"
+        }
+        btn_sad.setOnClickListener {
+            btn_happy.isChecked = false
+            btn_bored.isChecked = false
+            emotion = "SAD"
+        }
+        btn_bored.setOnClickListener {
+            btn_sad.isChecked = false
+            btn_good.isChecked = false
+            emotion = "BORED"
+        }
+    }
+
+    private fun recommend_btnEvent(){
+        btn_good.setOnClickListener{
+            btn_hate.isChecked = false
+            recommend = "YES"
+        }
+        btn_hate.setOnClickListener {
+            btn_good.isChecked = false
+            recommend = "NOPE"
+        }
     }
 
 }

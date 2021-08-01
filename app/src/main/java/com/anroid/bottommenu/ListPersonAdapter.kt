@@ -1,6 +1,9 @@
 package com.anroid.bottommenu
 
 import android.content.Context
+import android.database.Cursor
+import android.database.sqlite.SQLiteDatabase
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +15,16 @@ import android.widget.TextView
 class ListPersonAdapter(val context: Context, val reviewList: List<Review>): BaseAdapter() {
 
     private val mainActivity = MainActivity.getInstance()
+    private val alias: String = "HELLOouo"
+    private var title: String = "dfa"
+    private var reviewContent = "안녕안녕"
+    private var description = "하이하이"
+    private var rating = 3.0f
+    private var emotion = ""
+    private var recommend = ""
+
+    lateinit var db: DBHelper
+    lateinit var sqlDB: SQLiteDatabase
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val rowView: View = LayoutInflater.from(context).inflate(R.layout.review_contents, null)
@@ -27,9 +40,23 @@ class ListPersonAdapter(val context: Context, val reviewList: List<Review>): Bas
         imageView.setImageResource(R.drawable.image)         // Person 클래스 이미지 없음
         textContent.text = reviewList[position].title
 
+        db = DBHelper(context, "REVIEW", null, 1)
+        sqlDB = db.readableDatabase
+        var cursor: Cursor
+        cursor = sqlDB.rawQuery("SELECT * FROM REVIEW WHERE alias='$alias';", null)
+
+        while (cursor.moveToNext()){
+            title = cursor.getString(1)
+            reviewContent = cursor.getString(2)
+            description = cursor.getString(3)
+            rating = cursor.getFloat(4)
+        }
+        val review_content = Review(alias, title, reviewContent, description, rating, emotion, recommend)
+
         //이벤트
         rowView.setOnClickListener {
-            mainActivity?.mypageToReview()
+            mainActivity?.mypageToReview(ReviewFragment(), review_content)
+            //mainActivity?.mypageToReview(review_content)
         }
         btn_del.setOnClickListener {
 

@@ -5,6 +5,7 @@ import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import java.util.ArrayList
 
 class MainActivity : AppCompatActivity() {
 
@@ -56,8 +57,15 @@ class MainActivity : AppCompatActivity() {
         bn.menu.getItem(2).isChecked = true
     }
 
-    fun mypageToReview() {
-        replaceFragment(ReviewFragment())
+    fun mypageToReview(fragment: Fragment, reviewList: Review) {
+        val bundle = Bundle()
+        bundle.putString("title", reviewList.title)
+        bundle.putString("reviewContent", reviewList.review)
+        bundle.putString("description", reviewList.description)
+        bundle.putFloat("rating", reviewList.rating)
+        fragment.arguments = bundle
+        supportFragmentManager.beginTransaction().replace(R.id.fl_, fragment).commit()
         bn.menu.getItem(1).isChecked = true
     }
+
 }
