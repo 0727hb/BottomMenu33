@@ -59,6 +59,7 @@ class MainActivity : AppCompatActivity() {
 
     fun mypageToReview(fragment: Fragment, reviewList: Review) {
         val bundle = Bundle()
+        bundle.putInt("alias", reviewList.alias)
         bundle.putString("title", reviewList.title)
         bundle.putString("reviewContent", reviewList.review)
         bundle.putString("description", reviewList.description)

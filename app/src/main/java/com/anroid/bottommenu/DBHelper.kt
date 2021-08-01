@@ -17,34 +17,16 @@ class DBHelper(
 ) :
     SQLiteOpenHelper(context, name, factory, version) {
 
-    companion object {
-        private val DATABADE_VER = 1
-        private val DATABASE_NAME = "SAMPLEKOTL.db"
-
-        //테이블
-        private val TABLE_NAME = "Person"
-        private val COOL_ALIAS = "Alias"
-        private val COOL_TITLE = "Title"
-        private val COOL_TYPE = "Type"
-    }
-
     override fun onCreate(db: SQLiteDatabase?) {
         if (db != null) {
-            db.execSQL(
-                "CREATE TABLE MEMBER(EMAIL TEST," +
-                        "NAME TEXT, PASSWORD TEXT, PASSWORD_CK TEXT);"
-            )
-
-            db!!.execSQL("CREATE TABLE $TABLE_NAME($COOL_ALIAS TEXT PRIMARY KEY, $COOL_TITLE TEXT, $COOL_TYPE TEXT)");
-            db!!.execSQL("CREATE TABLE REVIEW(alias TEXT," + " title TEXT," + " review TEXT," + " description TEXT," + " rating REAL, " + " emotion TEXT, " + " recommend TEXT);")
+            db.execSQL("CREATE TABLE MEMBER(EMAIL TEST," + "NAME TEXT, PASSWORD TEXT, PASSWORD_CK TEXT);")
+            db!!.execSQL("CREATE TABLE REVIEW(alias INTEGER," + " title TEXT," + " review TEXT," + " description TEXT," + " rating REAL, " + " emotion TEXT, " + " recommend TEXT, " + " PRIMARY KEY('alias' AUTOINCREMENT));")
             db!!.execSQL("CREATE TABLE CONTENT(title TEXT, " + "image BLOB, " + "category INTEGER, " + "genre TEXT, description TEXT, " + "date TEXT, " + "reviewNum INTEGER, " + "rating REAL);")
             db!!.execSQL("CREATE TABLE WIKI(image BLOB," + "title CHAR(20));")
         }
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-        db!!.execSQL("DROP TABLE IF EXISTS $TABLE_NAME")
-        onCreate(db!!)
     }
 
     fun insert(
@@ -123,7 +105,7 @@ class DBHelper(
         try {
             val cursor: Cursor = db!!.rawQuery("SELECT * FROM REVIEW;", null)
             while (cursor.moveToNext()) {
-                val alias = cursor.getString(cursor.getColumnIndex("alias"))
+                val alias = cursor.getInt(cursor.getColumnIndex("alias"))
                 val title = cursor.getString(cursor.getColumnIndex("title"))
                 val review = cursor.getString(cursor.getColumnIndex("review"))
                 val description = cursor.getString(cursor.getColumnIndex("description"))
@@ -141,22 +123,14 @@ class DBHelper(
         return reviewList
     }
 
-    fun addReview(
-        alias: String,
-        title: String,
-        review: String,
-        description: String,
-        rating: Float,
-        emotion: String,
-        recommend: String
-    ) {
+    fun addReview(title: String, review: String, description: String, rating: Float, emotion: String, recommend: String) {
         var db: SQLiteDatabase = writableDatabase
-        db!!.execSQL("INSERT INTO REVIEW VALUES('$alias', '$title', '$review', '$description', '$rating', '$emotion', '$recommend');")
+        db!!.execSQL("INSERT INTO REVIEW(title, review, description, rating, emotion, recommend) VALUES('$title', '$review', '$description', '$rating', '$emotion', '$recommend');")
         db.close()
     }
 
     fun updateReview(
-        alias: String,
+        alias: Int,
         title: String,
         review: String,
         description: String,
@@ -174,9 +148,9 @@ class DBHelper(
         db.close()
     }
 
-    fun deleteReview(alias: String, title: String) {
+    fun deleteReview(alias: Int) {
         var db: SQLiteDatabase = writableDatabase
-        db!!.execSQL("DELETE FROM REVIEW WHERE alias = '$alias' AND title = '$title';")
+        db!!.execSQL("DELETE FROM REVIEW WHERE alias = '$alias';")
         db.close()
     }
 

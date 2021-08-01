@@ -15,7 +15,7 @@ import android.widget.TextView
 class ListPersonAdapter(val context: Context, val reviewList: List<Review>): BaseAdapter() {
 
     private val mainActivity = MainActivity.getInstance()
-    private val alias: String = "HELLOouo"
+    private var alias: Int = 0
     private var title: String = ""
     private var reviewContent = ""
     private var description = ""
@@ -34,7 +34,7 @@ class ListPersonAdapter(val context: Context, val reviewList: List<Review>): Bas
         val textContent = rowView.findViewById<TextView>(R.id.textContent)
         val textDescription = rowView.findViewById<TextView>(R.id.textDescription)
 
-        textId.text = reviewList[position].alias
+        textId.text = reviewList[position].alias.toString()
         imageView.setImageResource(R.drawable.image)         // Person 클래스 이미지 없음
         textContent.text = reviewList[position].title
         textDescription.text = reviewList[position].description
@@ -42,10 +42,11 @@ class ListPersonAdapter(val context: Context, val reviewList: List<Review>): Bas
         db = DBHelper(context, "REVIEW", null, 1)
         sqlDB = db.readableDatabase
         var cursor: Cursor
-        title = reviewList[position].title
-        cursor = sqlDB.rawQuery("SELECT * FROM REVIEW WHERE alias='$alias' AND title='$title';", null)
+        alias = reviewList[position].alias
+        cursor = sqlDB.rawQuery("SELECT * FROM REVIEW WHERE alias='$alias';", null) // MEMBER를 조건으로
 
         while (cursor.moveToNext()){
+            alias = cursor.getInt(0)
             title = cursor.getString(1)
             reviewContent = cursor.getString(2)
             description = cursor.getString(3)
@@ -58,7 +59,6 @@ class ListPersonAdapter(val context: Context, val reviewList: List<Review>): Bas
         //이벤트
         rowView.setOnClickListener {
             mainActivity?.mypageToReview(ReviewFragment(), review_content)
-
         }
 
         db.close()

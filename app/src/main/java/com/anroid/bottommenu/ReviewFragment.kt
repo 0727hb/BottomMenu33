@@ -1,5 +1,6 @@
 package com.anroid.bottommenu
 
+import android.database.Cursor
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -9,7 +10,7 @@ import android.view.ViewGroup
 import android.widget.*
 
 class ReviewFragment : Fragment() {
-    private var alias: String = ""
+    private var alias: Int = 0
     private var title: String = ""
     private var reviewContent: String = ""
     private var description: String = ""
@@ -17,20 +18,13 @@ class ReviewFragment : Fragment() {
     private var emotion: String = ""
     private var recommend: String = ""
 
-
     lateinit var db: DBHelper
 
     lateinit var edt_alias: TextView
-
     lateinit var ratingBar: RatingBar
-
     lateinit var summary: EditText
     lateinit var edt_title: EditText
     lateinit var review: EditText
-
-    lateinit var btn_add: Button
-    lateinit var btn_rev: Button
-    lateinit var btn_del: Button
 
     lateinit var btn_good: CheckBox
     lateinit var btn_hate: CheckBox
@@ -38,6 +32,10 @@ class ReviewFragment : Fragment() {
     lateinit var btn_happy: CheckBox
     lateinit var btn_sad: CheckBox
     lateinit var btn_bored: CheckBox
+
+    lateinit var btn_add: Button
+    lateinit var btn_rev: Button
+    lateinit var btn_del: Button
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -66,9 +64,8 @@ class ReviewFragment : Fragment() {
         btn_sad = view.findViewById<CheckBox>(R.id.btn_sad)
         btn_bored = view.findViewById<CheckBox>(R.id.btn_bored)
 
-
-
         arguments?.let {
+            alias = it.getInt("alias")
             title = it.getString("title").toString()
             reviewContent = it.getString("reviewContent").toString()
             description = it.getString("description").toString()
@@ -81,13 +78,6 @@ class ReviewFragment : Fragment() {
         summary.setText(description)
         review.setText(reviewContent)
         ratingBar.rating = ratingScore
-
-        when(emotion){
-            "HAPPY" -> btn_happy.isChecked = true
-            "SAD" -> btn_sad.isChecked = true
-            "BORED" -> btn_bored.isChecked = true
-            else -> false
-        }
 
         when(emotion){
             "HAPPY" -> btn_happy.isChecked = true
@@ -146,12 +136,11 @@ class ReviewFragment : Fragment() {
 
     private fun btnEvent(){
         btn_add.setOnClickListener {
-            alias = "HELLOouo"
             title = edt_title.text.toString()
             reviewContent = review.text.toString()
             description = summary.text.toString()
 
-            db.addReview(alias, title, reviewContent, description, ratingScore, emotion, recommend)
+            db.addReview(title, reviewContent, description, ratingScore, emotion, recommend)
             (activity as MainActivity).reviewToMypage()
         }
         btn_rev.setOnClickListener {
@@ -159,8 +148,7 @@ class ReviewFragment : Fragment() {
 
         }
         btn_del.setOnClickListener {
-            alias = "HELLOouo"
-            db.deleteReview(alias, title)
+            db.deleteReview(alias)
             (activity as MainActivity).reviewToMypage()
         }
     }
