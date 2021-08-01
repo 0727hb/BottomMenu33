@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:layout_margin="10dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
     tools:context=".ForumActivity">
 
     <LinearLayout
@@ -81,10 +83,8 @@
                     android:id="@+id/Genre_View"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="12dp"
+                    android:layout_marginTop="8dp"
                     android:text="Genre"
-                    app:layout_constraintBottom_toTopOf="@+id/Description_TextView"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/Title_TextView"
                     tools:layout_conversion_absoluteHeight="15dp"
@@ -94,10 +94,8 @@
                     android:id="@+id/Description_TextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginBottom="18dp"
+                    android:layout_marginTop="16dp"
                     android:text="설명"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/Genre_View"
                     tools:layout_conversion_absoluteHeight="0dp"
@@ -111,8 +109,9 @@
             android:id="@+id/forum_recyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"
             android:overScrollMode="never" />
 
     </LinearLayout>
 
-</ScrollView>
+</androidx.core.widget.NestedScrollView>

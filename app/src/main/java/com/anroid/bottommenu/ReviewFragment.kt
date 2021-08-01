@@ -5,10 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.RatingBar
-import android.widget.TextView
+import android.widget.*
 
 class ReviewFragment : Fragment() {
     lateinit var db: DBHelper
@@ -26,6 +23,9 @@ class ReviewFragment : Fragment() {
     lateinit var btn_add: Button
     lateinit var btn_rev: Button
     lateinit var btn_del: Button
+
+    lateinit var btn_good: CheckBox
+    lateinit var btn_hate: CheckBox
 
     var istPersons: List<Person> = ArrayList<Person>()
 
@@ -50,6 +50,9 @@ class ReviewFragment : Fragment() {
         btn_add = view.findViewById<Button>(R.id.btn_add)
         btn_del = view.findViewById<Button>(R.id.btn_del)
         btn_rev = view.findViewById<Button>(R.id.btn_rev)
+
+        btn_good = view.findViewById<CheckBox>(R.id.btn_good)
+        btn_hate = view.findViewById<CheckBox>(R.id.btn_hate)
 
         refreshData()
 
@@ -83,6 +86,13 @@ class ReviewFragment : Fragment() {
             refreshData()
         }
 
+        btn_good.setOnClickListener{
+            btn_hate.isChecked = false
+        }
+        btn_hate.setOnClickListener {
+            btn_good.isChecked = false
+        }
+
         return view
     }
 
@@ -91,5 +101,4 @@ class ReviewFragment : Fragment() {
         //val adapter= ListPersonAdapter()
         //list.adapter = adapter
     }
-
 }
