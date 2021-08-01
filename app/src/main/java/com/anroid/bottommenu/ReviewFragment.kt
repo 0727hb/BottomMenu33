@@ -66,20 +66,18 @@ class ReviewFragment : Fragment() {
         btn_sad = view.findViewById<CheckBox>(R.id.btn_sad)
         btn_bored = view.findViewById<CheckBox>(R.id.btn_bored)
 
-
         arguments?.let {
             title = it.getString("title").toString()
             reviewContent = it.getString("reviewContent").toString()
             description = it.getString("description").toString()
-            ratingScore = it.getFloat("ratingBar")
+            ratingScore = it.getFloat("rating")
         }
-
-        Log.d("A_Fragment", "영화 제목 : ${title}")
 
         edt_title.setText(title)
         summary.setText(description)
         review.setText(reviewContent)
-        ratingBar.setRating(ratingScore)
+        ratingBar.rating = ratingScore
+
 
         emotion_btnEvent()
         recommend_btnEvent()
