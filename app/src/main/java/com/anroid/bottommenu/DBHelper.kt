@@ -36,7 +36,7 @@ class DBHelper(
             )
 
             db!!.execSQL("CREATE TABLE $TABLE_NAME($COOL_ALIAS TEXT PRIMARY KEY, $COOL_TITLE TEXT, $COOL_TYPE TEXT)");
-            db!!.execSQL("CREATE TABLE REVIEW(alias TEXT," + " title TEXT," + " review TEXT" + ");")
+            db!!.execSQL("CREATE TABLE REVIEW(alias TEXT," + " title TEXT," + " review TEXT," + " description TEXT," + " rating REAL, " + " emotion TEXT, " + " recommend TEXT);")
             db!!.execSQL("CREATE TABLE CONTENT(title TEXT, " + "image BLOB, " + "category INTEGER, " + "genre TEXT, description TEXT, " + "date TEXT, " +  "reviewNum INTEGER, " + "rating REAL);")
             db!!.execSQL("CREATE TABLE WIKI(image BLOB," + "title CHAR(20));")
         }
@@ -177,7 +177,11 @@ class DBHelper(
                 val alias = cursor.getString(cursor.getColumnIndex("alias"))
                 val title = cursor.getString(cursor.getColumnIndex("title"))
                 val review = cursor.getString(cursor.getColumnIndex("review"))
-                val review_content = Review(alias, title, review)
+                val description = cursor.getString(cursor.getColumnIndex("description"))
+                val rating = cursor.getFloat(cursor.getColumnIndex("rating"))
+                val emotion = cursor.getString(cursor.getColumnIndex("emotion"))
+                val recommend = cursor.getString(cursor.getColumnIndex("recommend"))
+                val review_content = Review(alias, title, review, description, rating, emotion, recommend)
                 reviewList.add(review_content)
             }
         } catch (ex: Exception) {
@@ -187,18 +191,21 @@ class DBHelper(
         return reviewList
     }
 
-    fun addReview(alias: String, title: String, review: String){
+    fun addReview(alias: String, title: String, review: String, description: String, rating: Float, emotion: String, recommend: String){
         var db: SQLiteDatabase = writableDatabase
-        db!!.execSQL("INSERT INTO REVIEW VALUES('$alias', '$title', '$review');")
+        db!!.execSQL("INSERT INTO REVIEW VALUES('$alias', '$title', '$review', '$description', '$rating', '$emotion', '$recommend');")
         db.close()
-
     }
 
-    fun updateReview(alias: String, title: String, review: String){
+    fun updateReview(alias: String, title: String, review: String, description: String, rating: Float, emotion: String, recommend: String){
         var db: SQLiteDatabase = writableDatabase
         db!!.execSQL("INSERT INTO REVIEW SET alias = '$alias';")
         db!!.execSQL("INSERT INTO REVIEW SET title = '$title';")
         db!!.execSQL("INSERT INTO REVIEW SET review = '$review';")
+        db!!.execSQL("INSERT INTO REVIEW SET description = '$description';")
+        db!!.execSQL("INSERT INTO REVIEW SET rating = '$rating';")
+        db!!.execSQL("INSERT INTO REVIEW SET emotion = '$emotion';")
+        db!!.execSQL("INSERT INTO REVIEW SET recommend = '$recommend';")
         db.close()
     }
 

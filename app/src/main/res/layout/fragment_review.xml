@@ -168,6 +168,7 @@
                         app:layout_constraintStart_toStartOf="parent" />
 
                     <CheckBox
+                        android:id="@+id/btn_happy"
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
                         android:layout_marginStart="8dp"
@@ -178,6 +179,7 @@
                         tools:textSize="12sp" />
 
                     <CheckBox
+                        android:id="@+id/btn_sad"
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
                         android:layout_marginTop="16dp"
@@ -187,6 +189,7 @@
                         tools:textSize="12sp" />
 
                     <CheckBox
+                        android:id="@+id/btn_bored"
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
                         android:layout_marginTop="16dp"

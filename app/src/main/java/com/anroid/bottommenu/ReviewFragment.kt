@@ -8,6 +8,15 @@ import android.view.ViewGroup
 import android.widget.*
 
 class ReviewFragment : Fragment() {
+    private lateinit var alias: String
+    private lateinit var title: String
+    private lateinit var reviewContent: String
+    private lateinit var description: String
+    private  var ratingScore: Float = 0.0f
+    private lateinit var emotion: String
+    private lateinit var recommend: String
+
+
     lateinit var db: DBHelper
 
     lateinit var edt_alias: TextView
@@ -25,7 +34,10 @@ class ReviewFragment : Fragment() {
     lateinit var btn_good: CheckBox
     lateinit var btn_hate: CheckBox
 
-    var istPersons: List<Person> = ArrayList<Person>()
+    lateinit var btn_happy: CheckBox
+    lateinit var btn_sad: CheckBox
+    lateinit var btn_bored: CheckBox
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,47 +56,68 @@ class ReviewFragment : Fragment() {
         edt_title = view.findViewById<EditText>(R.id.edt_title)
         review = view.findViewById<EditText>(R.id.review)
 
+        btn_good = view.findViewById<CheckBox>(R.id.btn_good)
+        btn_hate = view.findViewById<CheckBox>(R.id.btn_hate)
+
         btn_add = view.findViewById<Button>(R.id.btn_add)
         btn_del = view.findViewById<Button>(R.id.btn_del)
         btn_rev = view.findViewById<Button>(R.id.btn_rev)
 
-        btn_good = view.findViewById<CheckBox>(R.id.btn_good)
-        btn_hate = view.findViewById<CheckBox>(R.id.btn_hate)
+        btn_happy = view.findViewById<CheckBox>(R.id.btn_happy)
+        btn_sad = view.findViewById<CheckBox>(R.id.btn_sad)
+        btn_bored = view.findViewById<CheckBox>(R.id.btn_bored)
 
-        refreshData()
+
+        btn_happy.setOnClickListener{
+            btn_sad.isChecked = false
+            btn_bored.isChecked = false
+            emotion = "HAPPY"
+        }
+        btn_sad.setOnClickListener {
+            btn_happy.isChecked = false
+            btn_bored.isChecked = false
+            emotion = "SAD"
+        }
+        btn_bored.setOnClickListener {
+            btn_sad.isChecked = false
+            btn_good.isChecked = false
+            emotion = "BORED"
+        }
+
+
+        btn_good.setOnClickListener{
+            btn_hate.isChecked = false
+            recommend = "YES"
+        }
+        btn_hate.setOnClickListener {
+            btn_good.isChecked = false
+            recommend = "NOPE"
+        }
+
+        ratingBar.setOnRatingBarChangeListener { ratingBar, rating, fromUser ->
+            ratingScore = rating
+        }
 
         //Event
         btn_add.setOnClickListener {
-            var alias = "HELLOouo"
-            var title = edt_title.text.toString()
-            var review = review.text.toString()
+            alias = "HELLOouo"
+            title = edt_title.text.toString()
+            reviewContent = review.text.toString()
+            description = summary.text.toString()
 
-            db.addReview(alias, title, review)
-
+            db.addReview(alias, title, reviewContent, description, ratingScore, emotion, recommend)
             (activity as MainActivity).reviewToMypage()
         }
         btn_rev.setOnClickListener {
 
-            refreshData()
+
         }
         btn_del.setOnClickListener {
 
-            refreshData()
-        }
 
-        btn_good.setOnClickListener{
-            btn_hate.isChecked = false
-        }
-        btn_hate.setOnClickListener {
-            btn_good.isChecked = false
         }
 
         return view
     }
 
-    private fun refreshData(){
-        istPersons = db.allPerson
-        //val adapter= ListPersonAdapter()
-        //list.adapter = adapter
-    }
 }
