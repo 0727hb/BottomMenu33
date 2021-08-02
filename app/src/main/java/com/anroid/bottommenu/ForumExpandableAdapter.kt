@@ -66,7 +66,7 @@ class ForumExpandableAdapter(private val forumList: List<Forum>, private val tit
 
                 var update_text = edit_content.getText().toString();
                 val itemPosition = getAdapterPosition()
-                myHelper.updateWIKI(update_text, title, itemPosition)
+                myHelper.WIKI_Update(update_text, title, itemPosition)
                 Toast.makeText(itemView.getContext(), "저장되었습니다", Toast.LENGTH_SHORT).show()
 
                 text_content.text = edit_content.text

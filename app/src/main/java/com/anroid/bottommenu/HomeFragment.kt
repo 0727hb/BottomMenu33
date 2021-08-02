@@ -35,7 +35,7 @@ class HomeFragment : Fragment() {
         myHelper = DBHelper(getActivity(), "CONTENT", null, 1)
 
         // # 기쁠 때
-        val contentList_happy = myHelper.select_all()
+        val contentList_happy = myHelper.CONTENT_Select()
         rv_content_happy = view.findViewById(R.id.rv_content_happy)
         rv_content_happy.layoutManager = LinearLayoutManager(
             requireContext(),
@@ -46,7 +46,7 @@ class HomeFragment : Fragment() {
         rv_content_happy.adapter = ContentAdapter(contentList_happy)
 
         // # 슬플 때
-        val contentList_sad = myHelper.select_all()
+        val contentList_sad = myHelper.CONTENT_Select()
         rv_content_sad = view.findViewById(R.id.rv_content_Sad)
         rv_content_sad.layoutManager = LinearLayoutManager(
             requireContext(),
@@ -57,7 +57,7 @@ class HomeFragment : Fragment() {
         rv_content_sad.adapter = ContentAdapter(contentList_sad)
 
         // # 최신 영화
-        val contentList_newMovie = myHelper.NEW_Select("MOVIE")
+        val contentList_newMovie = myHelper.CONTENT_Select_NEW("MOVIE")
         rv_content_newMovie = view.findViewById(R.id.rv_content_newMovie)
         rv_content_newMovie.layoutManager = LinearLayoutManager(
             requireContext(),
@@ -68,7 +68,7 @@ class HomeFragment : Fragment() {
         rv_content_newMovie.adapter = ContentAdapter(contentList_newMovie)
 
         // # 최신 도서
-        val contentList_newBook = myHelper.NEW_Select("BOOK")
+        val contentList_newBook = myHelper.CONTENT_Select_NEW("BOOK")
         rv_content_newBook = view.findViewById(R.id.rv_content_newBook)
         rv_content_newBook.layoutManager = LinearLayoutManager(
             requireContext(),
@@ -79,7 +79,7 @@ class HomeFragment : Fragment() {
         rv_content_newBook.adapter = ContentAdapter(contentList_newBook)
 
         // # 최신 음악
-        val contentList_newMusic = myHelper.NEW_Select("MUSIC")
+        val contentList_newMusic = myHelper.CONTENT_Select_NEW("MUSIC")
         rv_content_newMusic = view.findViewById(R.id.rv_content_newMusic)
         rv_content_newMusic.layoutManager = LinearLayoutManager(
             requireContext(),

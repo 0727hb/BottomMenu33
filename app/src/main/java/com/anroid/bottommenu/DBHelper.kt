@@ -126,6 +126,7 @@ class DBHelper(
     fun addReview(title: String, review: String, description: String, rating: Float, emotion: String, recommend: String) {
         var db: SQLiteDatabase = writableDatabase
         db!!.execSQL("INSERT INTO REVIEW(title, review, description, rating, emotion, recommend) VALUES('$title', '$review', '$description', '$rating', '$emotion', '$recommend');")
+        // CONTENT - CATEGORY에 해당 TITLE이 있는지 검색해 추가하는 과정 필요 & WIKI CONTENT 추가
         db.close()
     }
 
@@ -146,7 +147,7 @@ class DBHelper(
         db.close()
     }
 
-    fun NEW_Select(category: String): ArrayList<Content> {
+    fun CONTENT_Select_NEW(category: String): ArrayList<Content> {
         var db: SQLiteDatabase = readableDatabase
         val contentList: ArrayList<Content> = ArrayList<Content>()
         try {
@@ -169,7 +170,7 @@ class DBHelper(
         return contentList
     }
 
-    fun select_all(): ArrayList<Content> {
+    fun CONTENT_Select(): ArrayList<Content> {
         var db: SQLiteDatabase = readableDatabase
         val contentList: ArrayList<Content> = ArrayList<Content>()
         try {
@@ -187,6 +188,48 @@ class DBHelper(
         }
         db.close()
         return contentList
+    }
+
+    fun CONTENT_Insert(title: String, image: ByteArray, category: String, genre: String, description: String, rating: Float){
+        var db: SQLiteDatabase = writableDatabase
+
+        val date =  db!!.execSQL("SELECT strftime('%Y-%m-%d %H-%M-%f', 'now');")
+        val reviewNum = 1
+
+        db!!.execSQL("INSERT INTO WIKI VALUES('$title', '$image', '$category', '$genre', '$description', '$date', '$reviewNum', '$rating');")
+        db.close()
+    }
+
+    fun CONTENT_Update(flag: Int, title: String, category: String, rating: Float){
+        var db: SQLiteDatabase = writableDatabase
+        var cursor: Cursor = db!!.rawQuery("SELECT rating FROM CONTENT WHERE title = '$title' AND category = '$category';", null)
+
+        var ratingScore = 0.0f
+        var reviewNum = 0
+        var value = reviewNum * rating
+
+        while (cursor.moveToNext()){
+            ratingScore = cursor.getFloat(cursor.getColumnIndex("rating"))
+            reviewNum = cursor.getInt(cursor.getColumnIndex("reviewNum"))
+        }
+
+        when(flag){
+            0 -> {
+                // 후기 추가
+                reviewNum = reviewNum + 1
+                ratingScore = (ratingScore * (reviewNum - 1) + value) / reviewNum
+            }
+            1 -> {
+                // 후기 삭제
+                reviewNum = reviewNum - 1
+                ratingScore = (ratingScore * (reviewNum + 1) + value) / reviewNum
+            }
+        }
+
+        db!!.execSQL("UPDATE CONTENT SET rating = '$ratingScore' WHERE title = '$title'AND category = '$category';")
+        db!!.execSQL("UPDATE CONTENT SET reviewNum = '$reviewNum' WHERE title = '$title'AND category = '$category';")
+
+        db.close()
     }
 
     fun WIKI_Insert(title: String) {
@@ -215,7 +258,7 @@ class DBHelper(
         return forumList
     }
 
-    fun updateWIKI(update_text: String, title: String, itemPosition: Int) {
+    fun WIKI_Update(update_text: String, title: String, itemPosition: Int) {
         var db: SQLiteDatabase = writableDatabase
         when (itemPosition) {
             0 -> db!!.execSQL("UPDATE WIKI SET content_1 = '$update_text' WHERE title = '$title';")
@@ -227,7 +270,7 @@ class DBHelper(
         db.close()
     }
 
-    fun ContentRank(flag: String, category: String): ArrayList<rankContent> {
+    fun RANK_Select(flag: String, category: String): ArrayList<rankContent> {
         var db: SQLiteDatabase = readableDatabase
         val contentList: ArrayList<rankContent> = ArrayList<rankContent>()
         val cursor: Cursor
