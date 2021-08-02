@@ -5,8 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
 import android.widget.ListView
 
 class MypageFragment : Fragment() {
@@ -29,7 +27,7 @@ class MypageFragment : Fragment() {
         mypageList = view.findViewById<ListView>(R.id.mypageList)
         db = DBHelper(getActivity(), "REVIEW", null, 1)
 
-        reviewList = db.selectReivew()
+        reviewList = db.REVIEW_Select()
         val Adapter = ListPersonAdapter(context!!, reviewList)
         mypageList.adapter = Adapter
 

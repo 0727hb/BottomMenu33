@@ -99,7 +99,7 @@ class DBHelper(
         return false
     }
 
-    fun selectReivew(): ArrayList<Review> {
+    fun REVIEW_Select(): ArrayList<Review> {
         var db: SQLiteDatabase = readableDatabase
         val reviewList: ArrayList<Review> = ArrayList<Review>()
         try {
@@ -123,14 +123,14 @@ class DBHelper(
         return reviewList
     }
 
-    fun addReview(title: String, review: String, description: String, rating: Float, emotion: String, recommend: String) {
+    fun REVIEW_Insert(title: String, review: String, description: String, rating: Float, emotion: String, recommend: String) {
         var db: SQLiteDatabase = writableDatabase
         db!!.execSQL("INSERT INTO REVIEW(title, review, description, rating, emotion, recommend) VALUES('$title', '$review', '$description', '$rating', '$emotion', '$recommend');")
         // CONTENT - CATEGORY에 해당 TITLE이 있는지 검색해 추가하는 과정 필요 & WIKI CONTENT 추가
         db.close()
     }
 
-    fun updateReview(alias: Int, title: String, review: String, description: String, rating: Float, emotion: String, recommend: String) {
+    fun REVIEW_Update(alias: Int, title: String, review: String, description: String, rating: Float, emotion: String, recommend: String) {
         var db: SQLiteDatabase = writableDatabase
         db!!.execSQL("UPDATE REVIEW SET title = '$title' WHERE alias = '$alias';")
         db!!.execSQL("UPDATE REVIEW SET review = '$review' WHERE alias = '$alias';")
@@ -141,7 +141,7 @@ class DBHelper(
         db.close()
     }
 
-    fun deleteReview(alias: Int) {
+    fun REVIEW_Delete(alias: Int) {
         var db: SQLiteDatabase = writableDatabase
         db!!.execSQL("DELETE FROM REVIEW WHERE alias = '$alias';")
         db.close()
@@ -162,6 +162,36 @@ class DBHelper(
                 val title = cursor.getString(0)
                 val content = Content(image, title)
                 contentList.add(content)
+            }
+        } catch (ex: Exception) {
+            Log.e(ContentValues.TAG, "Exception in executing insert SQL.", ex)
+        }
+        db.close()
+        return contentList
+    }
+
+    fun CONTENT_Select_EMOTION(category: String, emotion: String): ArrayList<Content> {
+        var db: SQLiteDatabase = readableDatabase
+        val contentList: ArrayList<Content> = ArrayList<Content>()
+        try {
+            when(emotion){
+                "HAPPY" -> {
+                    val cursor: Cursor = db!!.rawQuery("SELECT * FROM CONTENT WHERE category = '$category' ORDER BY date DESC",null)
+                    var count = 0
+                    while (cursor.moveToNext() && count <= 10) {
+                        count += 1
+                        val image = cursor.getBlob(1)
+                        val title = cursor.getString(0)
+                        val content = Content(image, title)
+                        contentList.add(content)
+                    }
+                }
+                "SAD" -> {
+
+                }
+                "BORED" -> {
+
+                }
             }
         } catch (ex: Exception) {
             Log.e(ContentValues.TAG, "Exception in executing insert SQL.", ex)

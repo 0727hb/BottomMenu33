@@ -1,8 +1,6 @@
 package com.anroid.bottommenu
 
-import android.database.Cursor
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -140,8 +138,8 @@ class ReviewFragment : Fragment() {
             description = summary.text.toString()
 
             when(alias){
-                0 -> db.addReview(title, reviewContent, description, ratingScore, emotion, recommend)
-                else -> db.updateReview(alias, title, reviewContent, description, ratingScore, emotion, recommend)
+                0 -> db.REVIEW_Insert(title, reviewContent, description, ratingScore, emotion, recommend)
+                else -> db.REVIEW_Update(alias, title, reviewContent, description, ratingScore, emotion, recommend)
             }
             (activity as MainActivity).reviewToMypage()
         }
@@ -149,7 +147,7 @@ class ReviewFragment : Fragment() {
 
         }
         btn_del.setOnClickListener {
-            db.deleteReview(alias)
+            db.REVIEW_Delete(alias)
             (activity as MainActivity).reviewToMypage()
         }
     }
