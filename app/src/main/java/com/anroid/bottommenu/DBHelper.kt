@@ -21,9 +21,9 @@ class DBHelper(
     override fun onCreate(db: SQLiteDatabase?) {
         if (db != null) {
             db.execSQL("CREATE TABLE MEMBER(EMAIL TEST," + "NAME TEXT, PASSWORD TEXT, PASSWORD_CK TEXT);")
-            db!!.execSQL("CREATE TABLE REVIEW(alias INTEGER," + " title TEXT," + " review TEXT," + " description TEXT," + " rating REAL, " + " emotion TEXT, " + " recommend TEXT, " + " PRIMARY KEY('alias' AUTOINCREMENT));")
-            db!!.execSQL("CREATE TABLE CONTENT(title TEXT, " + "image BLOB, " + "category INTEGER, " + "genre TEXT, description TEXT, " + "date TEXT, " + "reviewNum INTEGER, " + "rating REAL);")
-            db!!.execSQL("CREATE TABLE WIKI(image BLOB," + "title CHAR(20));")
+            db!!.execSQL("CREATE TABLE REVIEW(alias INTEGER," + " title TEXT," + " image BLOB," + "category TEXT " + " review TEXT," + " description TEXT," + " rating REAL, " + " emotion TEXT, " + " recommend TEXT, " + " PRIMARY KEY('alias' AUTOINCREMENT));")
+            db!!.execSQL("CREATE TABLE CONTENT(title TEXT, " + "image BLOB, " + "category TEXT," + "description TEXT, " + "date TEXT, " + "reviewNum INTEGER, " + "rating REAL);")
+            db!!.execSQL("CREATE TABLE WIKI(title TEXT, " + "content_1 TEXT, " + "content_2 TEXT, " + "content_3 TEXT, " + "content_4 TEXT);")
         }
     }
 
@@ -275,12 +275,14 @@ class DBHelper(
         val forumList: ArrayList<String> = ArrayList<String>()
         try {
             val cursor: Cursor = db!!.rawQuery("SELECT * FROM WIKI WHERE title = '$title'", null)
-            var position = 1
-            while (position <= 4) {
-                cursor.moveToFirst()
-                content = cursor.getString(position)
-                forumList.add(content)
-                position = position + 1
+            //var position = 1
+            while (cursor.moveToNext()) {
+                //content = cursor.getString(position)
+                forumList.add(cursor.getString(1))
+                forumList.add(cursor.getString(2))
+                forumList.add(cursor.getString(3))
+                forumList.add(cursor.getString(4))
+                //position = position + 1
             }
         } catch (ex: Exception) {
             Log.e(ContentValues.TAG, "Exception in executing insert SQL.", ex)

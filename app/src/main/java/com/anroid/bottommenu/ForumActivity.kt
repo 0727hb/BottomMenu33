@@ -40,7 +40,7 @@ class ForumActivity : AppCompatActivity() {
             onBackPressed()
         }
 
-        myHelper = DBHelper(this, "CONTENT", null, 1)
+        myHelper = DBHelper(this, "GURU", null, 1)
         if(intent.hasExtra("title")) {
             title = intent.getStringExtra("title").toString()
         }
@@ -48,19 +48,15 @@ class ForumActivity : AppCompatActivity() {
         Title_TextView.setText(title)
 
         sqlDB = myHelper.readableDatabase
-        var cursor: Cursor = sqlDB.rawQuery("SELECT image, genre, description FROM CONTENT WHERE title = '$title';", null)
+        var cursor: Cursor = sqlDB.rawQuery("SELECT image, description FROM CONTENT WHERE title = '$title';", null)
 
         while (cursor.moveToNext()){
-            var image = cursor.getBlob(0) // image
-            var genre = cursor.getString(1) // genre
-            var Description = cursor.getString(2) // description
+            var image = cursor.getBlob(cursor.getColumnIndex("image")) // image
+            var Description = cursor.getString(cursor.getColumnIndex("description")) // description
 
             imageView.setImageBitmap(BitmapFactory.decodeByteArray(image, 0, image.size))
-            Genre_View.setText(genre)
             Description_TextView.setText(Description)
         }
-
-        myHelper = DBHelper(this, "WIKI", null, 1)
 
         val recyclerView = findViewById<RecyclerView>(R.id.forum_recyclerView)
         val contentArr = myHelper.WIKI_Select(title)
