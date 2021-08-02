@@ -21,7 +21,7 @@ class DBHelper(
     override fun onCreate(db: SQLiteDatabase?) {
         if (db != null) {
             db.execSQL("CREATE TABLE MEMBER(EMAIL TEST," + "NAME TEXT, PASSWORD TEXT, PASSWORD_CK TEXT);")
-            db!!.execSQL("CREATE TABLE REVIEW(alias INTEGER," + " title TEXT," + " image BLOB," + "category TEXT " + " review TEXT," + " description TEXT," + " rating REAL, " + " emotion TEXT, " + " recommend TEXT, " + " PRIMARY KEY('alias' AUTOINCREMENT));")
+            db!!.execSQL("CREATE TABLE REVIEW(alias INTEGER," + " title TEXT," + " image BLOB," + "category TEXT," + " review TEXT," + " description TEXT," + " rating REAL," + "emotion TEXT," + " recommend TEXT," + " PRIMARY KEY('alias' AUTOINCREMENT));")
             db!!.execSQL("CREATE TABLE CONTENT(title TEXT, " + "image BLOB, " + "category TEXT," + "description TEXT, " + "date TEXT, " + "reviewNum INTEGER, " + "rating REAL);")
             db!!.execSQL("CREATE TABLE WIKI(title TEXT, " + "content_1 TEXT, " + "content_2 TEXT, " + "content_3 TEXT, " + "content_4 TEXT);")
         }
