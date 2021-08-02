@@ -25,7 +25,7 @@ class MypageFragment : Fragment() {
         val context = getActivity()
 
         mypageList = view.findViewById<ListView>(R.id.mypageList)
-        db = DBHelper(getActivity(), "REVIEW", null, 1)
+        db = DBHelper(getActivity(), "GURU", null, 1)
 
         reviewList = db.REVIEW_Select()
         val Adapter = ListPersonAdapter(context!!, reviewList)

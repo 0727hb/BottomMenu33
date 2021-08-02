@@ -32,7 +32,7 @@ class HomeFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
-        myHelper = DBHelper(getActivity(), "CONTENT", null, 1)
+        myHelper = DBHelper(getActivity(), "GURU", null, 1)
 
         // # 기쁠 때
         val contentList_happy = myHelper.CONTENT_Select()

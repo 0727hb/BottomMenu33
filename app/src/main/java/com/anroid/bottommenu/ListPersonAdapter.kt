@@ -39,7 +39,7 @@ class ListPersonAdapter(val context: Context, val reviewList: List<Review>): Bas
         textContent.text = reviewList[position].title
         textDescription.text = reviewList[position].description
 
-        db = DBHelper(context, "REVIEW", null, 1)
+        db = DBHelper(context, "GURU", null, 1)
         sqlDB = db.readableDatabase
         var cursor: Cursor
         alias = reviewList[position].alias

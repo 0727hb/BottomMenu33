@@ -41,7 +41,7 @@ class ReviewFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_review, container, false)
-        db = DBHelper(getActivity(), "REVIEW", null, 1)
+        db = DBHelper(getActivity(), "GURU", null, 1)
 
         edt_alias = view.findViewById<TextView>(R.id.edt_alias)
         summary = view.findViewById<EditText>(R.id.summary)

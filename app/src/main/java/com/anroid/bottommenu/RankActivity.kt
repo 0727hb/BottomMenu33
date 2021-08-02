@@ -23,7 +23,7 @@ class RankActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_rank)
 
-        myHelper = DBHelper(this, "CONTENT", null, 1)
+        myHelper = DBHelper(this, "GURU", null, 1)
 
         textView_Rank = findViewById<TextView>(R.id.textView_Rank)
         btn_Back = findViewById<FloatingActionButton>(R.id.btn_back)

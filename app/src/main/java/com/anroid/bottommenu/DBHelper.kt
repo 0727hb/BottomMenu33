@@ -11,6 +11,7 @@ import java.util.*
 @Suppress("DEPRECATION")
 class DBHelper(
     context: Context?,
+
     name: String?,
     factory: SQLiteDatabase.CursorFactory?,
     version: Int
@@ -305,6 +306,7 @@ class DBHelper(
         }
         db.close()
     }
+
 
     /* RANK */
     fun RANK_Select(flag: String, category: String): ArrayList<rankContent> {
