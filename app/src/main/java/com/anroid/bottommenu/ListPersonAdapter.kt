@@ -48,6 +48,8 @@ class ListPersonAdapter(val context: Context, val reviewList: List<Review>): Bas
         while (cursor.moveToNext()){
             alias = cursor.getInt(0)
             title = cursor.getString(1)
+            //image = cursor.getBlob(2)
+            //category = cursor.getString(3)
             reviewContent = cursor.getString(4)
             description = cursor.getString(5)
             rating = cursor.getFloat(6)
