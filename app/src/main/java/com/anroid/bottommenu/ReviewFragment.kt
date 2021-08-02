@@ -46,12 +46,11 @@ class ReviewFragment : Fragment() {
         db = DBHelper(getActivity(), "REVIEW", null, 1)
 
         edt_alias = view.findViewById<TextView>(R.id.edt_alias)
-
-        ratingBar = view.findViewById<RatingBar>(R.id.ratingBar)
-
         summary = view.findViewById<EditText>(R.id.summary)
         edt_title = view.findViewById<EditText>(R.id.edt_title)
         review = view.findViewById<EditText>(R.id.review)
+
+        ratingBar = view.findViewById<RatingBar>(R.id.ratingBar)
 
         btn_good = view.findViewById<CheckBox>(R.id.btn_good)
         btn_hate = view.findViewById<CheckBox>(R.id.btn_hate)
@@ -140,11 +139,13 @@ class ReviewFragment : Fragment() {
             reviewContent = review.text.toString()
             description = summary.text.toString()
 
-            db.addReview(title, reviewContent, description, ratingScore, emotion, recommend)
+            when(alias){
+                0 -> db.addReview(title, reviewContent, description, ratingScore, emotion, recommend)
+                else -> db.updateReview(alias, title, reviewContent, description, ratingScore, emotion, recommend)
+            }
             (activity as MainActivity).reviewToMypage()
         }
         btn_rev.setOnClickListener {
-
 
         }
         btn_del.setOnClickListener {

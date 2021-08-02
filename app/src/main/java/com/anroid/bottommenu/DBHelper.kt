@@ -129,22 +129,14 @@ class DBHelper(
         db.close()
     }
 
-    fun updateReview(
-        alias: Int,
-        title: String,
-        review: String,
-        description: String,
-        rating: Float,
-        emotion: String,
-        recommend: String
-    ) {
+    fun updateReview(alias: Int, title: String, review: String, description: String, rating: Float, emotion: String, recommend: String) {
         var db: SQLiteDatabase = writableDatabase
-        db!!.execSQL("INSERT INTO REVIEW SET title = '$title' WHERE alias = '$alias';")
-        db!!.execSQL("INSERT INTO REVIEW SET review = '$review' WHERE alias = '$alias';")
-        db!!.execSQL("INSERT INTO REVIEW SET description = '$description' WHERE alias = '$alias';")
-        db!!.execSQL("INSERT INTO REVIEW SET rating = '$rating' WHERE alias = '$alias';")
-        db!!.execSQL("INSERT INTO REVIEW SET emotion = '$emotion' WHERE alias = '$alias';")
-        db!!.execSQL("INSERT INTO REVIEW SET recommend = '$recommend' WHERE alias = '$alias';")
+        db!!.execSQL("UPDATE REVIEW SET title = '$title' WHERE alias = '$alias';")
+        db!!.execSQL("UPDATE REVIEW SET review = '$review' WHERE alias = '$alias';")
+        db!!.execSQL("UPDATE REVIEW SET description = '$description' WHERE alias = '$alias';")
+        db!!.execSQL("UPDATE REVIEW SET rating = '$rating' WHERE alias = '$alias';")
+        db!!.execSQL("UPDATE REVIEW SET emotion = '$emotion' WHERE alias = '$alias';")
+        db!!.execSQL("UPDATE REVIEW SET recommend = '$recommend' WHERE alias = '$alias';")
         db.close()
     }
 
