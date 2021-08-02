@@ -327,9 +327,9 @@ class DBHelper(
                     var rank = 0
                     while (cursor.moveToNext()) {
                         rank = rank + 1
-                        val title = cursor.getString(0)
-                        val image = cursor.getBlob(1)
-                        val description = cursor.getString(4)
+                        val title = cursor.getString(cursor.getColumnIndex("title"))
+                        val image = cursor.getBlob(cursor.getColumnIndex("image"))
+                        val description = cursor.getString(cursor.getColumnIndex("description"))
                         val content = rankContent(rank, title, image, description)
                         contentList.add(content)
                     }
