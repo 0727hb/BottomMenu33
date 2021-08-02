@@ -130,6 +130,7 @@ class DBHelper(
         var db: SQLiteDatabase = writableDatabase
         db!!.execSQL("INSERT INTO REVIEW(title, review, description, rating, emotion, recommend) VALUES('$title', '$review', '$description', '$rating', '$emotion', '$recommend');")
         // CONTENT - CATEGORY에 해당 TITLE이 있는지 검색해 추가하는 과정 필요 & WIKI CONTENT 추가
+        // CONTENT_Insert(title, image, category, description, rating)
         db.close()
     }
 
@@ -225,13 +226,12 @@ class DBHelper(
         return contentList
     }
 
-    fun CONTENT_Insert(title: String, image: ByteArray, category: String, genre: String, description: String, rating: Float){
+    fun CONTENT_Insert(title: String, image: ByteArray, category: String, description: String, rating: Float){
         var db: SQLiteDatabase = writableDatabase
 
         val date =  db!!.execSQL("SELECT strftime('%Y-%m-%d %H-%M-%f', 'now');")
-        val reviewNum = 1
-
-        db!!.execSQL("INSERT INTO WIKI VALUES('$title', '$image', '$category', '$genre', '$description', '$date', '$reviewNum', '$rating');")
+        //val reviewNum = 1 추가
+       // db!!.execSQL("INSERT INTO CONTENT VALUES('$title', '$image', '$category', '$description', '$date', '$reviewNum', '$rating');")
         db.close()
     }
 

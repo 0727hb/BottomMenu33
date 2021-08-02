@@ -64,6 +64,7 @@ class ReviewFragment : Fragment() {
         arguments?.let {
             alias = it.getInt("alias")
             title = it.getString("title").toString()
+            //image = it.getByteArray("image")
             reviewContent = it.getString("reviewContent").toString()
             description = it.getString("description").toString()
             ratingScore = it.getFloat("rating")
@@ -144,7 +145,9 @@ class ReviewFragment : Fragment() {
             (activity as MainActivity).reviewToMypage()
         }
         btn_rev.setOnClickListener {
-
+            val category = "MUSIC"
+           //val image
+        //db.REVIEW_Insert(title, image, category, description, ratingScore)
         }
         btn_del.setOnClickListener {
             db.REVIEW_Delete(alias)
