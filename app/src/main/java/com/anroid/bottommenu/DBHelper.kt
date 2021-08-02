@@ -99,6 +99,8 @@ class DBHelper(
         return false
     }
 
+
+    /* REVIEW */
     fun REVIEW_Select(): ArrayList<Review> {
         var db: SQLiteDatabase = readableDatabase
         val reviewList: ArrayList<Review> = ArrayList<Review>()
@@ -145,6 +147,28 @@ class DBHelper(
         var db: SQLiteDatabase = writableDatabase
         db!!.execSQL("DELETE FROM REVIEW WHERE alias = '$alias';")
         db.close()
+    }
+
+
+    /* CONTENT */
+    fun CONTENT_Select(): ArrayList<Content> {
+        var db: SQLiteDatabase = readableDatabase
+        val contentList: ArrayList<Content> = ArrayList<Content>()
+        try {
+            val cursor: Cursor = db!!.rawQuery("SELECT * FROM CONTENT;", null)
+            var count = 0
+            while (cursor.moveToNext() && count <= 10) {
+                count += 1
+                val image = cursor.getBlob(1)
+                val title = cursor.getString(0)
+                val content = Content(image, title)
+                contentList.add(content)
+            }
+        } catch (ex: Exception) {
+            Log.e(ContentValues.TAG, "Exception in executing insert SQL.", ex)
+        }
+        db.close()
+        return contentList
     }
 
     fun CONTENT_Select_NEW(category: String): ArrayList<Content> {
@@ -200,26 +224,6 @@ class DBHelper(
         return contentList
     }
 
-    fun CONTENT_Select(): ArrayList<Content> {
-        var db: SQLiteDatabase = readableDatabase
-        val contentList: ArrayList<Content> = ArrayList<Content>()
-        try {
-            val cursor: Cursor = db!!.rawQuery("SELECT * FROM CONTENT;", null)
-            var count = 0
-            while (cursor.moveToNext() && count <= 10) {
-                count += 1
-                val image = cursor.getBlob(1)
-                val title = cursor.getString(0)
-                val content = Content(image, title)
-                contentList.add(content)
-            }
-        } catch (ex: Exception) {
-            Log.e(ContentValues.TAG, "Exception in executing insert SQL.", ex)
-        }
-        db.close()
-        return contentList
-    }
-
     fun CONTENT_Insert(title: String, image: ByteArray, category: String, genre: String, description: String, rating: Float){
         var db: SQLiteDatabase = writableDatabase
 
@@ -262,12 +266,8 @@ class DBHelper(
         db.close()
     }
 
-    fun WIKI_Insert(title: String) {
-        var db: SQLiteDatabase = writableDatabase
-        db!!.execSQL("INSERT INTO WIKI VALUES('$title', '', '', '', '');")
-        db.close()
-    }
 
+    /* WIKI */
     fun WIKI_Select(title: String): ArrayList<String> {
         var db: SQLiteDatabase = readableDatabase
         var content: String
@@ -288,6 +288,12 @@ class DBHelper(
         return forumList
     }
 
+    fun WIKI_Insert(title: String) {
+        var db: SQLiteDatabase = writableDatabase
+        db!!.execSQL("INSERT INTO WIKI VALUES('$title', '', '', '', '');")
+        db.close()
+    }
+
     fun WIKI_Update(update_text: String, title: String, itemPosition: Int) {
         var db: SQLiteDatabase = writableDatabase
         when (itemPosition) {
@@ -300,6 +306,7 @@ class DBHelper(
         db.close()
     }
 
+    /* RANK */
     fun RANK_Select(flag: String, category: String): ArrayList<rankContent> {
         var db: SQLiteDatabase = readableDatabase
         val contentList: ArrayList<rankContent> = ArrayList<rankContent>()
